@@ -1,0 +1,227 @@
+CSS và SCSS là hai định dạng tệp tin khác nhau dành cho việc viết và quản lý stylesheet trong web development. Dưới đây là sự khác biệt chính giữa hai định dạng này:
+
+1.CSS (Cascading Style Sheets)
+  Cú Pháp: CSS là một ngôn ngữ stylesheet đơn giản dùng để mô tả việc trình bày các tài liệu HTML. Cú pháp của CSS khá hạn chế, chỉ hỗ trợ các quy tắc định kiểu cơ bản như selectors, properties và values.
+  Tính Năng: CSS không hỗ trợ các tính năng như biến, nested rules, mixins, hay inheritance. Các tính năng này cần được thực hiện thủ công hoặc không thể thực hiện được.
+  Đơn Giản: Cú pháp đơn giản và dễ học, tuy nhiên khi dự án trở nên lớn và phức tạp, việc quản lý CSS có thể trở nên khó khăn.
+2. SCSS (Sassy CSS)
+  - Cú Pháp: SCSS là một cú pháp mở rộng của CSS và là một phần của SASS (Syntactically Awesome Style Sheets). SCSS tương thích ngược với CSS, nghĩa là mọi tệp tin CSS hợp lệ cũng là tệp tin SCSS hợp lệ.
+  -Tính Năng: SCSS bổ sung nhiều tính năng mạnh mẽ như:
+    + Biến (Variables): Cho phép lưu trữ các giá trị như màu sắc, font-size để tái sử dụng.
+      Ví dụ: 
+        $primary-color: #f0f0f0;
+        $font-stack: Arial, sans-serif;
+      
+
+        body {
+          font-family: $font-stack;
+          background-color: $primary-color;
+        }
+    
+    + Nesting: Cho phép lồng các selectors vào trong nhau giúp mã dễ đọc hơn.
+      Ví dụ: Trong header có nav. Nav có ul. ul có li ....
+      header 
+      {
+        background-color: $primary-color;
+        .......
+        nav {
+          margin: 20px 0;
+          ......
+          ul {
+            list-style-type: none;
+            .....
+
+            li {
+              display: inline;
+              ......
+            }
+          }
+        }
+      }
+
+    + Partials: Cho phép chia nhỏ stylesheet thành các phần nhỏ và import vào các tệp tin khác.
+      Ví dụ: Ta có 2 file 
+        a) '_variables.scss' chứa các biến:
+          ---------------------------------
+          $primary-color: #4CAF50;
+          $secondary-color: #f0f0f0;
+          .......
+          -----------------------------------
+
+        b) 'styles.scss' ta import file chứa biến ra, và dùng tái sử dụng biến :
+          ----------------------------------
+          @import 'variables';
+          ......
+          header {
+            background-color: $primary-color;
+            ....
+          }
+          ----------------------------------
+
+    + Mixins: Tái sử dụng nhóm các declarations.
+      Ta có 2 file:
+      a) '_mixins.scss' để định nghĩa các mixin
+        -----------------------------------------
+        @mixin flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        @mixin rounded-corners($radius) {
+          border-radius: $radius;
+        }
+        -------------------------------------------
+      b) 'styles.scss'
+        --------------------------------------------
+        main-content {
+          @include flex-center;
+          background-color: $font-color;
+          padding: $padding;
+          @include rounded-corners(5px);
+        }
+        ----------------------------------------------
+
+    + Inheritance: Cho phép một selector kế thừa các thuộc tính từ một selector khác.
+      Ví dụ:
+        .container {
+          width: 80%;
+          margin: 0 auto;
+          padding: 20px;
+          ......
+        }
+        .message {
+          @extend .container;
+          border: 1px solid $primary-color;
+          padding: $padding;
+        }
+
+    + Operators: Hỗ trợ các phép toán học như cộng, trừ, nhân, chia,.....
+      ===>  Sử dụng các phép toán như darken và lighten để điều chỉnh màu sắc. 
+              Ví dụ: background-color: darken($secondary-color, 10%);.
+
+
+Ví dụ:
+  *SCSS:
+ 
+
+  .container {
+    width: 100%;
+    padding: 20px;
+
+    .header {
+      background-color: darken($primary-color, 10%);
+      padding: 10px;
+    }
+  }
+
+  nav 
+  {
+    margin: 20px 0;
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        display: inline;
+        margin-right: 10px;
+      }
+    }
+  }
+---------------------------------------------------------------------------------
+
+src/
+│
+└── redux/
+    ├── features/
+    │   ├── auth/
+    │   │   └── authSlice.js
+    │   └── email/
+    │       └── emailSlice.js
+    └── store.js
+
+Ý nghĩa của cấu trúc
+  1.src/redux:
+    Đây là thư mục gốc cho tất cả các file liên quan đến Redux. Tất cả các slice và store của Redux sẽ được đặt ở đây để dễ quản lý.
+  
+  2.redux/features:
+    - Thư mục features chứa các "feature slice" của ứng dụng. Mỗi slice quản lý một phần riêng biệt của state ứng dụng.
+  
+  3.redux/features/auth:
+    - Thư mục auth chứa các file liên quan đến tính năng xác thực của ứng dụng.
+    - authSlice.js: Đây là file chứa slice Redux cho tính năng xác thực (authentication). File này định nghĩa state ban đầu, các reducers và actions liên quan đến việc đăng nhập, đăng xuất, và các hành động xác thực khác.
+
+  4.redux/features/email:
+    - Thư mục email chứa các file liên quan đến tính năng email của ứng dụng.
+    - emailSlice.js: Đây là file chứa slice Redux cho tính năng email. File này định nghĩa state ban đầu, các reducers và actions liên quan đến việc quản lý email.
+  
+  5.redux/store.js:
+    - Đây là file cấu hình store Redux chính của ứng dụng. Store này sẽ kết hợp tất cả các slice lại với nhau, tạo thành state tổng thể của ứng dụng.
+
+Chức năng của từng mục
+  1.authSlice.js:
+    - Định nghĩa slice cho tính năng xác thực, bao gồm state ban đầu (initialState) và các reducers để thay đổi state khi các actions được dispatch.
+    - Xuất các action creators và reducer để sử dụng trong ứng dụng.
+
+  2.emailSlice.js:
+    - Định nghĩa slice cho tính năng email, tương tự như authSlice.js, bao gồm state ban đầu và các reducers.
+    - Xuất các action creators và reducer để sử dụng trong ứng dụng.
+
+  3.store.js:
+    - Kết hợp các slice từ các file khác nhau lại để tạo thành store Redux duy nhất.
+    - Cấu hình middleware (nếu có) và tích hợp Redux DevTools để hỗ trợ việc debug.
+
+
+-----------------------------------------------------------------------------------------------------------------------
+1.Khái niệm Redux
+  Redux là một thư viện quản lý state cho các ứng dụng JavaScript, thường được sử dụng với các framework như React, nhưng cũng có thể sử dụng với bất kỳ framework hoặc thư viện JavaScript nào. Redux giúp quản lý trạng thái của ứng dụng một cách dễ dàng và có cấu trúc, giúp đảm bảo rằng dữ liệu trong ứng dụng được duy trì một cách nhất quán.
+
+2.Các thành phần chính của Redux
+  2.1.Store:
+    - Là một đối tượng chứa toàn bộ state của ứng dụng.
+    - Chỉ có một store duy nhất cho mỗi ứng dụng Redux.
+
+  2.2.Actions:
+    - Là các đối tượng đơn giản mô tả một hành động xảy ra trong ứng dụng.
+    - Mỗi action thường có một thuộc tính type và có thể có thêm các thuộc tính khác để mang dữ liệu.
+
+  2.3.Reducers:
+    - Là các hàm thuần túy (pure functions) nhận vào state hiện tại và một action, sau đó trả về state mới.
+    - Reducer xác định cách state của ứng dụng thay đổi để đáp ứng với các actions.
+
+  2.4.Dispatch:
+    - Là một phương thức của store được sử dụng để gửi actions đến reducer.
+    - Khi một action được dispatch, reducer sẽ xử lý action đó và cập nhật state của store.
+
+  2.5.Selectors:
+    - Là các hàm được sử dụng để truy vấn state từ store.
+    - Giúp lấy ra các phần cụ thể của state để sử dụng trong các component.
+  
+3.Cách hoạt động của Redux
+  3.1.Action Creation:
+    - Một action được tạo ra khi có sự kiện xảy ra trong ứng dụng (ví dụ: người dùng nhấp vào nút).
+    - Action này sau đó được gửi (dispatch) đến store.
+  
+  3.2.State Update:
+    - Store nhận action và chuyển nó đến reducer.
+    - Reducer xác định cách action sẽ ảnh hưởng đến state và trả về state mới.
+
+  3.3.State Propagation:
+    - Store cập nhật state và tất cả các component được kết nối với store sẽ nhận được state mới.
+    - Các component này sau đó sẽ render lại giao diện người dùng dựa trên state mới.
+
+4. Lợi ích của việc sử dụng Redux
+  4.1.Quản lý state tập trung:
+    Tất cả state của ứng dụng được quản lý tập trung tại một nơi duy nhất (store), giúp dễ dàng kiểm soát và theo dõi.
+  4.2.Dự đoán được hành vi:
+    Do reducers là các hàm thuần túy, kết quả của chúng dựa trên các inputs được cung cấp, giúp hành vi của ứng dụng dễ dàng dự đoán.
+  4.3.Dễ debug:
+    Redux DevTools cung cấp các công cụ mạnh mẽ để theo dõi và debug state của ứng dụng.
+  4.4.Tái sử dụng mã nguồn:
+    Các phần của state và logic có thể được tái sử dụng và chia sẻ giữa các phần khác nhau của ứng dụng.
+
+==>Redux giúp cấu trúc lại cách mà state được quản lý trong ứng dụng, đảm bảo rằng mọi thay đổi của state đều được xử lý một cách rõ ràng và có thể theo dõi được.
+
+=====================================================================================================================================================================================
+useEffect() đóng vai trò rất quan trọng trong việc thực hiện side effects (tác vụ phụ) khi component được render hoặc khi các giá trị trong mảng phụ thuộc thay đổi. 
