@@ -57,6 +57,7 @@ function App() {
   Nếu người dùng đã đăng nhập trước đó, ứng dụng sẽ cập nhật state để phản ánh trạng thái đăng nhập này.
   Nhờ đó, ứng dụng có thể hiển thị giao diện phù hợp (chẳng hạn như hiển thị trang chủ hoặc dashboard nếu người dùng đã đăng nhập, hoặc trang đăng nhập nếu người dùng chưa đăng nhập).
   */
+  console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)
   return (
     <>
     <BrowserRouter>
